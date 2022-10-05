@@ -1,5 +1,6 @@
 package com.example.PruebaFibonacci.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,10 @@ public class FibonacciService {
 
 		return this.repository.findById(number).get().getValue();
 
+	}
+	
+	public List <Long> mostConsulted(){
+		return this.repository.mostConsulted();
 	}
 
 }
