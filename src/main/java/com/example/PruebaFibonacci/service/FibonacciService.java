@@ -1,6 +1,6 @@
 package com.example.PruebaFibonacci.service;
 
-
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -12,21 +12,17 @@ import com.example.PruebaFibonacci.repository.FibonacciRepository;
 
 @Service
 public class FibonacciService {
-	
+
 	private final FibonacciRepository repository;
 
 	public FibonacciService(FibonacciRepository repository) {
 		super();
 		this.repository = repository;
 	}
-	
+
 	@Transactional
-	public long createFibonacci(long number) throws Exception {
-		
-		if (number <= 0) {
-			throw new Exception("El valor inroducido tiene que ser mayor a 0");
-        }
-		
+	public long createFibonacci(long number) {
+
 		Optional<Fibonacci> exist = this.repository.findById(number);
 		if (!exist.isEmpty()) {
 			exist.get().increment();
@@ -44,20 +40,24 @@ public class FibonacciService {
 		}
 		Fibonacci fibo = new Fibonacci();
 
-        for (long i = pos; i <= number; i++) {
-            prev = next;
-            next = next + res;
-            res = prev;
-            
-            fibo.setId(i);
-            fibo.setValue(res);
-            fibo.setNext(next);
-            fibo.setCount(0);
-            this.repository.save(fibo);
-        }
-        
-        return this.repository.findById(number).get().getValue();
-		
+		for (long i = pos; i <= number; i++) {
+			prev = next;
+			next = next + res;
+			res = prev;
+
+			fibo.setId(i);
+			fibo.setValue(res);
+			fibo.setNext(next);
+			fibo.setCount(0);
+			this.repository.save(fibo);
+		}
+
+		return this.repository.findById(number).get().getValue();
+
+	}
+	
+	public List <Long> mostConsulted(){
+		return this.repository.mostConsulted();
 	}
 
 }
