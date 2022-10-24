@@ -1,10 +1,10 @@
 package com.example.PruebaFibonacci.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
+ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.PruebaFibonacci.entitys.Fibonacci;
@@ -38,19 +38,21 @@ public class FibonacciService {
 			res = lastFibo.getValue();
 			pos = lastFibo.getId() + 1;
 		}
-		Fibonacci fibo = new Fibonacci();
+		List <Fibonacci> list = new ArrayList<>();
 
 		for (long i = pos; i <= number; i++) {
 			prev = next;
 			next = next + res;
 			res = prev;
-
+			
+			Fibonacci fibo = new Fibonacci();
 			fibo.setId(i);
 			fibo.setValue(res);
 			fibo.setNext(next);
 			fibo.setCount(0);
-			this.repository.save(fibo);
+			list.add(fibo);
 		}
+		this.repository.saveAll(list);
 
 		return this.repository.findById(number).get().getValue();
 
