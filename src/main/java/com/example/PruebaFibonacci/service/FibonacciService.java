@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
- import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.PruebaFibonacci.entitys.Fibonacci;
@@ -31,6 +31,7 @@ public class FibonacciService {
 			this.repository.updateCont(count, idExiste);
 			return exist.get().getValue();
 		}
+
 		long next = 1, res = 1, prev, pos = 1;
 		Fibonacci lastFibo = this.repository.lastElemt();
 		if (lastFibo != null) {
@@ -38,13 +39,13 @@ public class FibonacciService {
 			res = lastFibo.getValue();
 			pos = lastFibo.getId() + 1;
 		}
-		List <Fibonacci> list = new ArrayList<>();
 
+		List<Fibonacci> list = new ArrayList<>();
 		for (long i = pos; i <= number; i++) {
 			prev = next;
 			next = next + res;
 			res = prev;
-			
+
 			Fibonacci fibo = new Fibonacci();
 			fibo.setId(i);
 			fibo.setValue(res);
@@ -53,12 +54,10 @@ public class FibonacciService {
 			list.add(fibo);
 		}
 		this.repository.saveAll(list);
-
 		return this.repository.findById(number).get().getValue();
-
 	}
-	
-	public List <Long> mostConsulted(){
+
+	public List<Long> mostConsulted() {
 		return this.repository.mostConsulted();
 	}
 
